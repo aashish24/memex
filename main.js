@@ -10,7 +10,7 @@ $(function () {
       y: 39.5
     },
     zoom: 1
-  }), visData = {}, geolocations = {};
+  }), visData = [], geolocations = {};
 
   // Add the osm layer with a custom tile url
   map.createLayer(
@@ -50,7 +50,7 @@ $(function () {
           // Do nothing
         } else {
           if (geolocations[dataItemName]) {
-            visData[dataItemName] = {adCount: data.data[dataItem].ad_count, location: geolocations[dataItemName]};
+            visData.push({name: dataItemName, adCount: data.data[dataItem].ad_count, location: geolocations[dataItemName]});
           }
         }
       }
@@ -58,13 +58,16 @@ $(function () {
     }
   });
 
-  map.createLayer('point')
+  map.createLayer('feature').createFeature('point', {selectionAPI: true})
     .data(visData)
     .position(function(d) {
-      return {x: d.lon, y: d.lat};
+      return {x: d.location.lng, y: d.location.lat};
+    })
+    .style('fillOpacity', function(d) {
+      return 0.4;
     })
     .style('radius', function(d) {
-      return d.adCount / 1000.0;
+      return d.adCount/10000.0;
     });
 
   // Draw the map
