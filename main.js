@@ -70,6 +70,8 @@ $(function () {
     .position(function(d) {
       return {x: d.location.lng, y: d.location.lat};
     })
+    .style('strokeColor', {r: 0.1, g: 0.1, b: 0.6})
+    .style('fillColor', {r: 0.1, g: 0.1, b: 0.8})
     .style('fillOpacity', function(d) {
       return 0.4;
     })
