@@ -10,7 +10,7 @@ $(function () {
       y: 39.5
     },
     zoom: 1
-  }), visData = [], geolocations = {};
+  }), visData = [], geolocations = {}, scale = d3.scale.linear();
 
   // Add the osm layer with a custom tile url
   map.createLayer(
@@ -58,6 +58,13 @@ $(function () {
     }
   });
 
+  scale
+    .domain([d3.min(visData, function(d) {
+      return d.location.ratio;
+    }), d3.max(visData, function(d) { return d.location.ratio;  })])
+    .range([10, 100]);
+
+
   map.createLayer('feature').createFeature('point', {selectionAPI: true})
     .data(visData)
     .position(function(d) {
@@ -67,7 +74,7 @@ $(function () {
       return 0.4;
     })
     .style('radius', function(d) {
-      return d.adCount/10000.0;
+      return scale(d.location.ratio)  ;
     });
 
   // Draw the map
