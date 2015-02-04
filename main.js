@@ -40,7 +40,7 @@ $(function () {
 
   // Parse the data
   $.ajax({
-    url: "giant_oak_data.json",
+    url: "data.json",
     async: false,
     success: function (data) {
       var dataItemName = null;
@@ -67,7 +67,7 @@ $(function () {
     .domain([d3.min(visData, function(d) {
       return d.location.ratio;
     }), d3.max(visData, function(d) { return d.location.ratio;  })])
-    .range([5, 100]);
+    .range([8, 100]);
 
   color
     .domain([d3.min(visData, function(d) {
@@ -83,10 +83,8 @@ $(function () {
       return {x: d.location.lng, y: d.location.lat};
     })
     .style('strokeColor', {r: 0.3, g: 0.3, b: 0.1})
-    .style('fillColor', function (d) { if (d.unemployed < 100) {
-        return {r: 0.1, g: 0.1, b: 0.6};
-      } else if (d.unemployed < 1000) {
-        return {r: 0.8, g: 0.8, b: 0.0};
+    .style('fillColor', function (d) { if (d.unemployed < 1000) {
+        return {r: 1.0, g: 1.0, b: 0.0};
       } else {
         return {r: 1.0, g: 0.1, b: 0.1};
       }
